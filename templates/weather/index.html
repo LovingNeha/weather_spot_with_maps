@@ -1,0 +1,376 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">
+		
+		<link rel="SHORTCUT ICON" HREF="owm.ico">
+		<link rel="stylesheet" type="text/css" href="{% static 'leaflet/leaflet.css ' %}" >
+		<link rel="stylesheet" type="text/css" href="{% static 'leaflet/leaflet-openweathermap.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'files/map.css' %}" />
+		<script src="{% static 'leaflet/leaflet.js' %}"></script>
+		<script src="{% static 'leaflet/Permalink.js' %}"></script>
+		<script src="{% static 'leaflet/Permalink.Layer.js' %}"></script>
+		<script src="{% static 'leaflet/Permalink.Overlay.js' %}"></script>
+		<script src="{% static 'leaflet/leaflet-openweathermap.js' %}"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'leaflet/leaflet-languageselector.css' %}" />
+		<script src="{% static 'leaflet/leaflet-languageselector.js' %}"></script>
+		<script src="{% static 'files/map_i18n.js' %}"></script>
+		<script src="{% static 'files/map.js' %}"></script>
+			
+		<title>WEATHER SPOT</title>
+
+		<!-- Loading third party fonts -->
+		<link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
+		<link href="{%static 'fonts/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+
+		<!-- Loading main css file -->
+        <link  href="{% static 'style.css' %}" rel="stylesheet">
+        
+        
+		
+		<!--[if lt IE 9]>
+		<script src="js/ie-support/html5.js"></script>
+		<script src="js/ie-support/respond.js"></script>
+		<![endif]-->
+	<script>
+       $(document).ready(function(){
+       $("#b1").click(function(){
+       $("#abc").show(1); 
+       
+       });
+       });
+    </script>
+	</head>
+	
+<style> #map {
+	height: 30%;
+	width: 100%;
+	margin: 0px;
+	border: 3px solid #131212;
+	
+	
+}
+#cssTable td 
+        {
+            text-align: center; 
+            vertical-align: middle;
+        }
+        
+        
+        
+        table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 80%;
+        height: 30%;
+      }
+      
+      td, th {
+        border: 3px solid #131212;
+        text-align: center;
+        padding: 8px;
+      }
+      
+      tr:nth-child(even) {
+        background-color: #828bdb;
+		text-decoration-color: white;
+    -webkit-text-fill-color: white;
+      }
+    
+    
+	  
+        
+        
+        
+</style>
+
+	<body>
+		
+		
+		<div class="site-content">
+			<div class="site-header">
+				<div class="container">
+					<a href="{% url 'home' %}" class="branding">
+						<img src="{% static 'img/logo.png' %}" alt="" class="logo">
+						<div class="logo-type">
+							<h1 class="site-title">Weather spot</h1>
+							<small class="site-description">one click away</small>
+						</div>
+					</a>
+
+					<!-- Default snippet for navigation -->
+					<div class="main-navigation">
+						<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
+						<ul class="menu">
+							<li class="menu-item"><a href="#home">Home</a></li>
+							<li class="menu-item"><a href="#features">Today's weather</a></li>
+							<li class="menu-item"><a href="#screenshot">Gallery</a></li>
+							<li class="menu-item"><a href="/index2/">Climate</a></li>
+							<li class="menu-item"><a href="#contact">Contact</a></li>
+							<li class="menu-item"><a href="http://127.0.0.1:8000/admin">Admin Login</a>
+						</ul> <!-- .menu -->
+					</div> <!-- .main-navigation -->
+
+<div class="mobile-navigation"></div>
+
+				</div>
+			</div> <!-- .site-header -->
+			
+		<div class="hero" >
+				<br>
+				<br>
+			<div class="container">
+			<a class="weatherwidget-io" href="https://forecast7.com/en/31d3375d58/jalandhar/" data-label_1="JALANDHAR" data-label_2="WEATHER" data-theme="random_grey" data-suncolor="#60c8e7" >JALANDHAR WEATHER</a>
+				<script>
+				!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+				</script>
+				</div>
+				
+				<br>
+				<br>
+				
+
+        
+				<div class="container" id="features">
+					<form method="post">
+						{% csrf_token %}
+						<div class="find-location">
+							<div class="row">
+								<!-- Single Input Area Start -->
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="text" class="form-control" name="name" id="name" placeholder="Enter City Name" required>
+										<br>
+				<br>
+									</div>
+								</div>
+								<!-- Single Input Area Start -->
+								
+								<div  align="center" class="col-12">
+									
+									<button  type="submit" class="btn submit-btn">Submit</button>
+								</div>
+							</div>
+						</div>
+						<!-- Message Input Area End -->
+					</form> 
+					
+					</div>
+			
+			
+				
+					<table class="table display_none" id="abc" align="center">
+						
+						<tr>
+								<th><h1><font color="green">city</font></h1></th>             
+								<th><h1><font color="green">description</font></h1></th>
+								<th><h1><font color="green">temprature</font></h1></th>          
+								<th><h1><font color="green">snow</font></h1></th>
+								<th><h1><font color="green">wind</font></h1></th>
+								<th><h1><font color="green">country</font></h1></th>
+								<th><h1><font color="green">rain</font></h2></th>
+								<th><h1><font color="green">icon</font></h1></th>
+							  </tr>
+						{% if valid %}             
+
+							<tr>
+							<td><h2>{{weather.city}}</h2></td>
+							<td><h2>{{weather.des}}</h2></td>
+							<td><h2>{{weather.temp}}°C</h2></td>
+							<td><h2>{{weather.snow}}</h2></td>
+							<td><h2>{{weather.wind}}(km/hr)</h2></td>
+							<td><h2>{{weather.country}}</h2></td>
+							<td><h2>{{weather.rain}}</h2></td>
+							<td><ul><li><h2><img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image">
+							</tr>
+
+						
+						</table>
+
+						{% else %} 
+
+						<div class="media-content">
+
+							<div class="content">
+
+								<p><h1 align="center"><font color="red" > {{touser}} </font></h1></p>
+							</div>
+						</div>
+							{% endif %}
+</table>
+
+		</div>
+	</section>
+
+
+<main class="main-content"id="screenshot">
+			<div class="fullwidth-block" data-bg-color="black">
+				<div class="container">
+					<h2 class="section-title" align="center" data-bg-color=" #131212">Gallery</h2>
+					<div class="row">
+						<div class="col-md-3 col-sm-6">
+							<div class="live-camera">
+								<figure class="live-camera-cover"><img src="{% static 'img/scr-img/w1.jpg' %}" alt=""></figure>
+								<h3 class="location">New York</h3>
+								
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6">
+							<div class="live-camera">
+								<figure class="live-camera-cover"><img src="{% static 'img/scr-img/w2.jpg' %}" alt=""></figure>
+								<h3 class="location">Los Angeles</h3>
+								
+							</div>
+						</div>
+					
+						<div class="col-md-3 col-sm-6">
+							<div class="live-camera">
+								<figure class="live-camera-cover"><img src="{% static 'img/scr-img/w3.jpg' %}" alt=""></figure>
+								<h3 class="location">Chicago</h3>
+								
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6">
+							<div class="live-camera">
+								<figure class="live-camera-cover"><img src="{% static 'img/scr-img/w4.jpg' %}" alt=""></figure>
+								<h3 class="location">London</h3>
+								
+							</div>
+						</div>
+						<p>---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</p>
+						<div class="col-md-3 col-sm-6">
+								<div class="live-camera">
+									<figure class="live-camera-cover"><img src="{% static 'img/scr-img/w5.jpg' %}" alt=""></figure>
+									<h3 class="location">New York</h3>
+									
+								</div>
+							</div>
+							<div class="col-md-3 col-sm-6">
+								<div class="live-camera">
+									<figure class="live-camera-cover"><img src="{% static 'img/scr-img/w6.jpg' %}" alt=""></figure>
+									<h3 class="location">Los Angeles</h3>
+									
+								</div>
+							</div>
+							
+							<div class="col-md-3 col-sm-6">
+								<div class="live-camera">
+									<figure class="live-camera-cover"><img src="{% static 'img/scr-img/w1.jpg' %}" alt=""></figure>
+									<h3 class="location">Chicago</h3>
+									
+								</div>
+							</div>
+							<div class="col-md-3 col-sm-6">
+								<div class="live-camera">
+									<figure class="live-camera-cover"><img src="{% static 'img/scr-img/w2.jpg' %}" alt=""></figure>
+									<h3 class="location">London</h3>
+									
+								</div>
+							</div>
+					
+						
+					</div>
+				</div>
+			</div>
+	
+	
+        
+				<div class="fullwidth-block" data-bg-color=" #131212">
+					<div class="container">
+						
+							<h1 align= "center">Contact Us</h1>
+				   
+					</div>
+				</div>
+
+
+
+				
+				
+				
+</main> <!-- .main-content -->
+
+			<footer class="site-footer">
+				<div class="container">
+					
+					<div class="row">
+						
+						<div class="col-md-3 col-md-offset-1">
+							
+							
+						</div>
+					</div>
+					<!-- ***** Contact Us Area Start ***** -->
+    <section class="footer-contact-area section_padding_100 clearfix" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- Heading Text  -->
+                    <div class="section-heading">
+                        <h2>Get in touch with us!</h2>
+                        <div class="line-shape"></div>
+                    </div>
+                    <div class="footer-text">
+                        </div>
+                    <div class="address-text">
+                        <p><span>Address:</span>Kabir Nagar, jalandhar,punjab 144001</p>
+                    </div>
+                    <div class="phone-text">
+                        <p><span>Phone:</span> +918264216948</p>
+                    </div>
+                    <div class="email-text">
+                        <p><span>Email:</span> forecasteweather.info@gmail.com</p>
+                    </div>
+                    <div class="address-text">
+                            <p><span>FeedBack:</span>Give Us Your Important FeadBack</p>
+                        </div>
+                        
+                        <a href="{% url 'FeedBack' %}">
+                             <h2><button class="button button5"><font color="white">Feedback</font></button></h2>
+						</a>
+						<br>
+						<br>
+						<h2>Quick links!</h2>
+							<ul class="menu">
+								<li class="menu-item"><a href="{% url 'home' %}">Home</a></li>
+								<li class="menu-item"><a href="#features">Today's weather</a></li>
+								<li class="menu-item"><a href="#screenshot">Gallery</a></li>
+								<li class="menu-item"><a href="/index2/">Climate</a></li>
+								<li class="menu-item"><a href="#contact">Contact</a></li>
+								<li class="menu-item"><a href="http://127.0.0.1:8000/admin">Admin Login</a>
+							</ul> 
+                     </div>
+
+
+            <div class="col-md-6">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3408.271355517069!2d75.58644721462588!3d31.323878263953368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391a5a44fe0ad8e7%3A0xd5d2574fbe41e548!2sGuru+Nanak+Dev+University+College!5e0!3m2!1sen!2sin!4v1551618035369" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+</div>
+            </div>
+        </div>
+	</section>
+					
+
+					
+				</div>
+			</footer> <!-- .site-footer -->
+			
+		</div>
+		<div class="social-links" data-bg-color="black">
+                                
+            <a href="https://facebook.com"><i class="fa fa-facebook"></i></a>
+            <a href="https://twitter.com"><i class="fa fa-twitter"></i></a>
+            <a href="https://www.instagram.com"><i class="fa fa-instagram"></i></a>
+            <p class="colophon">Copyright 2019 Weather Spot. Designed by Themezy. All rights reserved</p>
+     </div>
+    
+		<script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+		<script src="{% static 'js/plugins.js' %}"></script>
+		<script src="{% static 'js/app.js' %}"></script>
+		
+	</body>
+
+</html>
