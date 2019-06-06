@@ -9,7 +9,7 @@ admin.site.register(Temp_imp_climate)
 
 class Temp_changes_cousesAdmin(admin.ModelAdmin):
     list_display = ('heading', 'discription',)
-    search_fields = ('heading',)
+    search_fields = ('heading', )
     class Meta:
         model = Earthquake_data
 admin.site.register(Temp_changes_couses,Temp_changes_cousesAdmin)
